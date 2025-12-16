@@ -44,6 +44,34 @@ class _FormDemoState extends State<FormDemo> {
   bool? radioValue = null;
   bool? radioValue2 = null;
 
+
+  String? validateName(String? value){
+    if(value == null || value.isEmpty){
+      return "Veuillez remplir votre nom !";
+    }
+    if(value.length < 2){
+      return "Votre nom doit contenir au moins 2 caractères !";
+    }
+    return null;
+  }
+
+  String? validateAge(String? value){
+    if(value == null || value.isEmpty){
+      return "Veuillez remplir votre age !";
+    }
+    if(int.parse(value) < 0){
+      return "Votre age ne peut être négatif !";
+    }
+    return null;
+  }
+
+  String? validateJob(String? value){
+    if(value == null || value.isEmpty){
+      return "Veuillez remplir votre métier !";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -53,12 +81,14 @@ class _FormDemoState extends State<FormDemo> {
         child: Column(
           children: [
             TextFormField(
+              validator: validateName,
               decoration: InputDecoration(
                 labelText: "Nom",
                 hintText: "Veuillez saisir votre nom !",
               ),
             ),
             TextFormField(
+              validator: validateAge,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: "Age",
@@ -66,6 +96,7 @@ class _FormDemoState extends State<FormDemo> {
               ),
             ),
             DropdownButtonFormField<String>(
+              validator: validateJob,
               onChanged: (value) {},
               initialValue: "",
               items: [
@@ -138,7 +169,11 @@ class _FormDemoState extends State<FormDemo> {
                 Text("Faux !"),
               ],
             ),
-            OutlinedButton(onPressed: () {}, child: Text("GO !")),
+            OutlinedButton(onPressed: () {
+              if(_formKey.currentState!.validate()){
+
+              }
+            }, child: Text("GO !")),
           ],
         ),
       ),
