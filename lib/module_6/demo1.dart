@@ -43,6 +43,9 @@ class _FormDemoState extends State<FormDemo> {
   bool isChecked = false;
   bool? radioValue = null;
   bool? radioValue2 = null;
+  String? name, age, job;
+
+  TextEditingController controllerName = TextEditingController(text: "");
 
 
   String? validateName(String? value){
@@ -81,6 +84,13 @@ class _FormDemoState extends State<FormDemo> {
         child: Column(
           children: [
             TextFormField(
+              controller: controllerName,
+              onChanged: (value){
+                print(controllerName.text);
+              },
+              onSaved: (value){
+                  name = value;
+              },
               validator: validateName,
               decoration: InputDecoration(
                 labelText: "Nom",
@@ -88,6 +98,9 @@ class _FormDemoState extends State<FormDemo> {
               ),
             ),
             TextFormField(
+              onSaved: (value){
+                  age = value;
+              },
               validator: validateAge,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
@@ -96,6 +109,9 @@ class _FormDemoState extends State<FormDemo> {
               ),
             ),
             DropdownButtonFormField<String>(
+              onSaved: (value){
+                job = value;
+              },
               validator: validateJob,
               onChanged: (value) {},
               initialValue: "",
@@ -170,8 +186,10 @@ class _FormDemoState extends State<FormDemo> {
               ],
             ),
             OutlinedButton(onPressed: () {
+              print("$name, $age, $job");
               if(_formKey.currentState!.validate()){
-
+                  _formKey.currentState!.save();
+                  print("$name, $age, $job, $isChecked, $radioValue");
               }
             }, child: Text("GO !")),
           ],
