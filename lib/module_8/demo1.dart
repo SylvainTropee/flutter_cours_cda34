@@ -75,7 +75,7 @@ class _CatViewState extends State<CatView> {
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data?.body != null) {
               var garfield = Cat.fromJson(jsonDecode(snapshot.data!.body)[0]);
-              return Image.network(garfield.url);
+              return Image.network(garfield.url, webHtmlElementStrategy: WebHtmlElementStrategy.prefer);
             }
 
             return CircularProgressIndicator();
